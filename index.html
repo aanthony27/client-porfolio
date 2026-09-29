@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jamie Zhang | Portfolio</title>
+    <title>Jamie's Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -46,11 +46,11 @@
             font-family: 'Space Grotesk', sans-serif;
         }
 
-        .wingdings-active * :not(script):not(style):not(i):not(svg):not(path) {
+        .wingdings-active * :not(script):not(style):not(i):not(svg):not(path):not(.no-wingdings):not(.no-wingdings *) {
             font-family: 'WingdingsFont', 'Wingdings', sans-serif !important;
         }
 
-        .wingdings-active .no-wingdings {
+        .no-wingdings {
             font-family: 'Plus Jakarta Sans', sans-serif !important;
         }
 
@@ -77,37 +77,37 @@
 </head>
 <body class="bg-brand-darkBg text-slate-100 transition-colors duration-300 min-h-screen flex flex-col grid-bg-dark" id="bodyTag">
 
-    <!-- WINGDINGS TRANSLATOR BAR -->
-    <div id="translatorBar" class="hidden sticky top-0 z-50 bg-brand-blue text-white py-2 px-3 sm:px-6 shadow-xl border-b border-blue-400 no-wingdings">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 text-xs sm:text-sm">
-            <div class="flex items-center gap-2 font-bold tracking-wide shrink-0">
+    <!-- WINGDINGS TRANSLATOR BAR (EXPLICITLY EXCLUDED FROM WINGDINGS FONT) -->
+    <div id="translatorBar" class="hidden sticky top-0 z-50 bg-brand-blue text-white py-2.5 px-3 sm:px-6 shadow-xl border-b border-blue-400 no-wingdings">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 text-xs sm:text-sm no-wingdings">
+            <div class="flex items-center gap-2 font-bold tracking-wide shrink-0 no-wingdings">
                 <span class="inline-block w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
-                <span>WINGDINGS DECODER ACTIVE</span>
+                <span class="no-wingdings">WINGDINGS DECODER CHART</span>
             </div>
-            <div class="flex flex-wrap justify-center gap-x-3 gap-y-1 font-mono text-xs overflow-x-auto max-w-full py-1">
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">A=✌</span>
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">B=👌</span>
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">C=👍</span>
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">D=👎</span>
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">E=👈</span>
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">F=👉</span>
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">G=👆</span>
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">H=👇</span>
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">I=✏</span>
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">J=☺</span>
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">K=😐</span>
-                <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-400/30">L=☹</span>
+            <div class="flex flex-wrap justify-center gap-1.5 font-mono text-xs overflow-x-auto max-w-full py-1 no-wingdings">
+                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">A = ✌</span>
+                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">B = 👌</span>
+                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">C = 👍</span>
+                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">D = 👎</span>
+                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">E = 👈</span>
+                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">J = ☺</span>
+                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">L = ☹</span>
+                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">1 = 📄</span>
+                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">7 = 🕈</span>
             </div>
-            <button onclick="toggleWingdings(false)" class="text-xs underline hover:text-slate-200 shrink-0 cursor-pointer">Disable</button>
+            <button onclick="toggleWingdings(false)" class="text-xs underline hover:text-slate-200 shrink-0 cursor-pointer font-bold no-wingdings">Disable</button>
         </div>
     </div>
 
     <!-- NAVBAR -->
     <header class="sticky top-0 z-40 w-full backdrop-blur-md border-b border-slate-800 bg-brand-darkBg/80 transition-colors" id="headerNav">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-2 font-bold text-lg sm:text-xl tracking-tight text-white hover:text-brand-electric transition-colors">
+            <a href="#" class="flex items-center gap-2.5 font-bold text-lg sm:text-xl tracking-tight text-white hover:text-brand-electric transition-colors">
                 <span class="w-8 h-8 rounded-lg bg-brand-blue flex items-center justify-center text-white font-extrabold text-sm shadow-lg shadow-blue-500/30">JZ</span>
-                <span class="heading-font">Jamie Zhang</span>
+                <div class="flex items-center gap-2">
+                    <span class="heading-font">Jamie's Portfolio</span>
+                    <span class="text-xs font-medium text-slate-400 hidden sm:inline">• About Me</span>
+                </div>
             </a>
 
             <!-- Desktop Nav -->
@@ -138,7 +138,7 @@
                     <div class="w-full md:w-2/3 space-y-4 text-center md:text-left">
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-brand-electric border border-blue-500/20">
                             <span class="w-2 h-2 rounded-full bg-brand-electric"></span>
-                            St. George's School • Grade 8+
+                            St. George's School • Grade 10
                         </div>
                         
                         <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight heading-font text-white leading-tight" id="heroHeading">
@@ -146,7 +146,7 @@
                         </h1>
                         
                         <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl mx-auto md:mx-0">
-                            Originally from <strong class="text-white font-semibold">Shanghai</strong>, I now live in <strong class="text-white font-semibold">Vancouver</strong>. My journey took a big leap in Grade 8 when I came to <strong class="text-white font-semibold">St. George's School</strong>. I love exploring technology, building robotics, playing video games, and staying active on the tennis court.
+                            Originally from <strong class="text-white font-semibold">Shanghai</strong>, I now live in <strong class="text-white font-semibold">Vancouver</strong>. My journey took a big leap when I moved here and joined <strong class="text-white font-semibold">St. George's School</strong>. I love exploring technology, building robotics, playing video games, and staying active on the tennis court.
                         </p>
 
                         <div class="pt-2 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
@@ -177,7 +177,7 @@
                             </div>
                             <div>
                                 <p class="text-xs text-slate-400 font-medium">Education</p>
-                                <p class="text-sm font-bold text-white">St. George's (Since Gr. 8)</p>
+                                <p class="text-sm font-bold text-white">St. George's (Grade 10)</p>
                             </div>
                         </div>
 
@@ -198,7 +198,7 @@
         <!-- INTERESTS SECTION -->
         <section id="interests" class="space-y-6">
             <div class="text-center max-w-xl mx-auto space-y-2">
-                <h2 class="text-2xl sm:text-3xl font-extrabold heading-font tracking-tight text-white">What I'm Into</h2>
+                <h2 class="text-2xl sm:text-3xl font-extrabold heading-font tracking-tight text-white">My Interests</h2>
                 <p class="text-xs sm:text-sm text-slate-400">Here is a look into my favorite hobbies, passions, and how I like to spend my time.</p>
             </div>
 
@@ -295,52 +295,52 @@
 
     <!-- FOOTER -->
     <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-400 no-wingdings">
-        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p>© Jamie Zhang • St. George's School</p>
-            <p class="text-slate-400">Shanghai ✈ Vancouver</p>
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 no-wingdings">
+            <p class="no-wingdings">© Jamie Zhang • St. George's School</p>
+            <p class="text-slate-400 no-wingdings">Shanghai ✈ Vancouver</p>
         </div>
     </footer>
 
     <!-- SETTINGS MODAL -->
     <div id="settingsModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 no-wingdings">
-        <div class="glass-card-dark rounded-3xl max-w-md w-full p-6 space-y-6 border shadow-2xl relative" id="modalCard">
+        <div class="glass-card-dark rounded-3xl max-w-md w-full p-6 space-y-6 border shadow-2xl relative no-wingdings" id="modalCard">
             
-            <div class="flex items-center justify-between border-b border-slate-700/60 pb-4">
-                <div class="flex items-center gap-2">
+            <div class="flex items-center justify-between border-b border-slate-700/60 pb-4 no-wingdings">
+                <div class="flex items-center gap-2 no-wingdings">
                     <svg class="w-5 h-5 text-brand-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
-                    <h3 class="text-lg font-bold text-white heading-font">Display Settings</h3>
+                    <h3 class="text-lg font-bold text-white heading-font no-wingdings">Display Settings</h3>
                 </div>
-                <button onclick="closeSettings()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors">
+                <button onclick="closeSettings()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors no-wingdings">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
 
-            <div class="space-y-5 text-xs sm:text-sm">
+            <div class="space-y-5 text-xs sm:text-sm no-wingdings">
                 
                 <!-- Font Size Slider -->
-                <div class="space-y-2">
-                    <div class="flex justify-between font-semibold">
-                        <span class="text-slate-300">Font Size</span>
-                        <span id="fontSizeVal" class="text-brand-electric font-mono">16px</span>
+                <div class="space-y-2 no-wingdings">
+                    <div class="flex justify-between font-semibold no-wingdings">
+                        <span class="text-slate-300 no-wingdings">Font Size</span>
+                        <span id="fontSizeVal" class="text-brand-electric font-mono no-wingdings">16px</span>
                     </div>
                     <input type="range" id="fontSlider" min="13" max="20" value="16" oninput="adjustFontSize(this.value)" class="w-full accent-brand-electric cursor-pointer">
-                    <div class="flex justify-between text-[10px] text-slate-400 font-mono">
-                        <span>Small (13px)</span>
-                        <span>Normal (16px)</span>
-                        <span>Large (20px)</span>
+                    <div class="flex justify-between text-[10px] text-slate-400 font-mono no-wingdings">
+                        <span class="no-wingdings">Small (13px)</span>
+                        <span class="no-wingdings">Normal (16px)</span>
+                        <span class="no-wingdings">Large (20px)</span>
                     </div>
                 </div>
 
                 <!-- Wingdings Toggle Switch -->
-                <div class="flex items-center justify-between p-3 rounded-xl bg-blue-950/40 border border-blue-500/30">
-                    <div>
-                        <p class="font-semibold text-white flex items-center gap-1.5">
-                            <span>Wingdings Mode</span>
-                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-blue-500/20 text-brand-electric border border-blue-500/30">Secret</span>
+                <div class="flex items-center justify-between p-3 rounded-xl bg-blue-950/40 border border-blue-500/30 no-wingdings">
+                    <div class="no-wingdings">
+                        <p class="font-semibold text-white flex items-center gap-1.5 no-wingdings">
+                            <span class="no-wingdings">Wingdings Mode</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-blue-500/20 text-brand-electric border border-blue-500/30 no-wingdings">Secret</span>
                         </p>
-                        <p class="text-xs text-slate-400">Transforms website text into Wingdings font</p>
+                        <p class="text-xs text-slate-400 no-wingdings">Transforms website text into Wingdings font</p>
                     </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
+                    <label class="relative inline-flex items-center cursor-pointer no-wingdings">
                         <input type="checkbox" id="wingdingsToggle" onchange="toggleWingdings(this.checked)" class="sr-only peer">
                         <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-blue"></div>
                     </label>
@@ -348,7 +348,7 @@
 
             </div>
 
-            <button onclick="closeSettings()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-600 text-white font-semibold text-xs shadow-lg shadow-blue-500/20 transition-all">
+            <button onclick="closeSettings()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-600 text-white font-semibold text-xs shadow-lg shadow-blue-500/20 transition-all no-wingdings">
                 Done
             </button>
         </div>
