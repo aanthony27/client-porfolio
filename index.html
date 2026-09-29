@@ -46,6 +46,7 @@
             font-family: 'Space Grotesk', sans-serif;
         }
 
+        /* Wingdings Mode Styling */
         .wingdings-active * :not(script):not(style):not(i):not(svg):not(path):not(.no-wingdings):not(.no-wingdings *) {
             font-family: 'WingdingsFont', 'Wingdings', sans-serif !important;
         }
@@ -65,6 +66,10 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
+        .wingdings-glyph {
+            font-family: 'WingdingsFont', 'Wingdings', sans-serif !important;
+        }
+
         @keyframes pulseGlow {
             0%, 100% { opacity: 0.4; }
             50% { opacity: 0.8; }
@@ -76,28 +81,6 @@
     </style>
 </head>
 <body class="bg-brand-darkBg text-slate-100 transition-colors duration-300 min-h-screen flex flex-col grid-bg-dark" id="bodyTag">
-
-    <!-- WINGDINGS TRANSLATOR BAR (EXPLICITLY EXCLUDED FROM WINGDINGS FONT) -->
-    <div id="translatorBar" class="hidden sticky top-0 z-50 bg-brand-blue text-white py-2.5 px-3 sm:px-6 shadow-xl border-b border-blue-400 no-wingdings">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 text-xs sm:text-sm no-wingdings">
-            <div class="flex items-center gap-2 font-bold tracking-wide shrink-0 no-wingdings">
-                <span class="inline-block w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
-                <span class="no-wingdings">WINGDINGS DECODER CHART</span>
-            </div>
-            <div class="flex flex-wrap justify-center gap-1.5 font-mono text-xs overflow-x-auto max-w-full py-1 no-wingdings">
-                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">A = ✌</span>
-                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">B = 👌</span>
-                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">C = 👍</span>
-                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">D = 👎</span>
-                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">E = 👈</span>
-                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">J = ☺</span>
-                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">L = ☹</span>
-                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">1 = 📄</span>
-                <span class="bg-blue-900/80 px-2 py-0.5 rounded border border-blue-400/40 no-wingdings">7 = 🕈</span>
-            </div>
-            <button onclick="toggleWingdings(false)" class="text-xs underline hover:text-slate-200 shrink-0 cursor-pointer font-bold no-wingdings">Disable</button>
-        </div>
-    </div>
 
     <!-- NAVBAR -->
     <header class="sticky top-0 z-40 w-full backdrop-blur-md border-b border-slate-800 bg-brand-darkBg/80 transition-colors" id="headerNav">
@@ -117,7 +100,14 @@
                 <a href="#contact" class="hover:text-brand-electric transition-colors">Contact</a>
             </nav>
 
-            <div class="flex items-center gap-2 sm:gap-3">
+            <div class="flex items-center gap-2 sm:gap-3 no-wingdings">
+                <!-- Decipher Font Button -->
+                <button id="decipherBtn" onclick="openDecipherModal()" class="no-wingdings p-2 sm:px-3 sm:py-2 rounded-xl bg-blue-600/90 hover:bg-blue-500 text-white transition-colors border border-blue-400/30 flex items-center gap-1.5 text-xs font-semibold cursor-pointer shadow-lg shadow-blue-500/20" aria-label="Decipher Font">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <span>Decipher Font</span>
+                </button>
+
+                <!-- Settings Button -->
                 <button id="settingsBtn" onclick="openSettings()" class="no-wingdings p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 transition-colors border border-slate-700/50 flex items-center gap-1.5 text-xs font-semibold cursor-pointer" aria-label="Open Settings">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5 text-brand-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     <span class="hidden sm:inline">Settings</span>
@@ -202,7 +192,6 @@
                 <p class="text-xs sm:text-sm text-slate-400">Here is a look into my favorite hobbies, passions, and how I like to spend my time.</p>
             </div>
 
-            <!-- Stacking vertical grid on mobile -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
 
                 <!-- ROBOTICS & TECH CARD -->
@@ -294,16 +283,16 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-400 no-wingdings">
-        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 no-wingdings">
-            <p class="no-wingdings">© Jamie Zhang • St. George's School</p>
-            <p class="text-slate-400 no-wingdings">Shanghai ✈ Vancouver</p>
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-400">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>© Jamie Zhang • St. George's School</p>
+            <p class="text-slate-400">Shanghai ✈ Vancouver</p>
         </div>
     </footer>
 
     <!-- SETTINGS MODAL -->
     <div id="settingsModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 no-wingdings">
-        <div class="glass-card-dark rounded-3xl max-w-md w-full p-6 space-y-6 border shadow-2xl relative no-wingdings" id="modalCard">
+        <div class="glass-card-dark rounded-3xl max-w-md w-full p-6 space-y-6 border shadow-2xl relative no-wingdings">
             
             <div class="flex items-center justify-between border-b border-slate-700/60 pb-4 no-wingdings">
                 <div class="flex items-center gap-2 no-wingdings">
@@ -354,6 +343,59 @@
         </div>
     </div>
 
+    <!-- DECIPHER FONT MODAL (FULL CHART) -->
+    <div id="decipherModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 no-wingdings">
+        <div class="glass-card-dark rounded-3xl max-w-2xl w-full p-5 sm:p-6 space-y-5 border shadow-2xl relative max-h-[90vh] flex flex-col no-wingdings">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 shrink-0 no-wingdings">
+                <div class="flex items-center gap-2.5 no-wingdings">
+                    <div class="p-2 rounded-xl bg-blue-500/10 text-brand-electric no-wingdings">
+                        <svg class="w-5 h-5 text-brand-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                    <div class="no-wingdings">
+                        <h3 class="text-lg font-bold text-white heading-font no-wingdings">Wingdings Decipher Chart</h3>
+                        <p class="text-xs text-slate-400 no-wingdings">Use this reference key to decode any Wingdings characters</p>
+                    </div>
+                </div>
+                <button onclick="closeDecipherModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors no-wingdings">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Scrollable Content Grid -->
+            <div class="overflow-y-auto space-y-6 pr-1 no-wingdings">
+                
+                <!-- Alphabets Section -->
+                <div class="space-y-2.5 no-wingdings">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-brand-electric flex items-center gap-1.5 no-wingdings">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-electric"></span>
+                        Alphabet (A – Z)
+                    </h4>
+                    <div id="lettersGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-2 no-wingdings">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Numbers Section -->
+                <div class="space-y-2.5 no-wingdings">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-brand-electric flex items-center gap-1.5 no-wingdings">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-electric"></span>
+                        Numbers (0 – 9)
+                    </h4>
+                    <div id="numbersGrid" class="grid grid-cols-5 sm:grid-cols-10 gap-2 no-wingdings">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+            </div>
+
+            <button onclick="closeDecipherModal()" class="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-blue-600 text-white font-semibold text-xs shadow-lg shadow-blue-500/20 transition-all shrink-0 no-wingdings">
+                Close Chart
+            </button>
+        </div>
+    </div>
+
     <!-- JAVASCRIPT LOGIC -->
     <script>
         let isWingdings = false;
@@ -366,6 +408,14 @@
             document.getElementById('settingsModal').classList.add('hidden');
         }
 
+        function openDecipherModal() {
+            document.getElementById('decipherModal').classList.remove('hidden');
+        }
+
+        function closeDecipherModal() {
+            document.getElementById('decipherModal').classList.add('hidden');
+        }
+
         function adjustFontSize(val) {
             document.documentElement.style.setProperty('--font-size-base', val + 'px');
             document.getElementById('fontSizeVal').innerText = val + 'px';
@@ -374,14 +424,11 @@
         function toggleWingdings(enabled) {
             isWingdings = enabled;
             document.getElementById('wingdingsToggle').checked = enabled;
-            const translatorBar = document.getElementById('translatorBar');
 
             if (enabled) {
                 document.body.classList.add('wingdings-active');
-                translatorBar.classList.remove('hidden');
             } else {
                 document.body.classList.remove('wingdings-active');
-                translatorBar.classList.add('hidden');
             }
         }
 
@@ -396,11 +443,47 @@
             });
         }
 
-        // Close modal on outside click
+        // Build the Decipher Modal Grids dynamically
+        function generateDecipherChart() {
+            const lettersGrid = document.getElementById('lettersGrid');
+            const numbersGrid = document.getElementById('numbersGrid');
+
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            const numbers = '0123456789'.split('');
+
+            alphabet.forEach(char => {
+                const card = document.createElement('div');
+                card.className = 'p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 flex flex-col items-center justify-center gap-1 text-center no-wingdings';
+                card.innerHTML = `
+                    <span class="text-xs font-bold text-slate-300 no-wingdings">${char}</span>
+                    <span class="text-lg text-brand-electric font-mono wingdings-glyph">${char}</span>
+                `;
+                lettersGrid.appendChild(card);
+            });
+
+            numbers.forEach(num => {
+                const card = document.createElement('div');
+                card.className = 'p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 flex flex-col items-center justify-center gap-1 text-center no-wingdings';
+                card.innerHTML = `
+                    <span class="text-xs font-bold text-slate-300 no-wingdings">${num}</span>
+                    <span class="text-lg text-brand-electric font-mono wingdings-glyph">${num}</span>
+                `;
+                numbersGrid.appendChild(card);
+            });
+        }
+
+        // Initialize grid on DOM load
+        document.addEventListener('DOMContentLoaded', generateDecipherChart);
+
+        // Close modals on outside click
         window.onclick = function(event) {
-            const modal = document.getElementById('settingsModal');
-            if (event.target === modal) {
+            const settingsModal = document.getElementById('settingsModal');
+            const decipherModal = document.getElementById('decipherModal');
+            if (event.target === settingsModal) {
                 closeSettings();
+            }
+            if (event.target === decipherModal) {
+                closeDecipherModal();
             }
         }
     </script>
