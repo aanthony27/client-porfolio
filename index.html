@@ -337,7 +337,7 @@
                     </div>
                     <div class="no-wingdings">
                         <h3 class="text-lg font-bold text-white heading-font no-wingdings">Wingdings Decipher Chart</h3>
-                        <p class="text-xs text-slate-400 no-wingdings">Use this reference key to decode any Wingdings characters</p>
+                        <p class="text-xs text-slate-400 no-wingdings">Use this key to decode characters across the site</p>
                     </div>
                 </div>
                 <button onclick="closeDecipherModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors no-wingdings">
@@ -348,15 +348,22 @@
             <!-- Scrollable Content Grid -->
             <div class="overflow-y-auto space-y-6 pr-1 no-wingdings">
                 
-                <!-- Alphabets Section -->
+                <!-- Uppercase Section -->
                 <div class="space-y-2.5 no-wingdings">
                     <h4 class="text-xs font-bold uppercase tracking-wider text-brand-electric flex items-center gap-1.5 no-wingdings">
                         <span class="w-1.5 h-1.5 rounded-full bg-brand-electric"></span>
-                        Alphabet (A – Z)
+                        Uppercase Letters (A – Z)
                     </h4>
-                    <div id="lettersGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-2 no-wingdings">
-                        <!-- Populated dynamically via JS -->
-                    </div>
+                    <div id="uppercaseGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-2 no-wingdings"></div>
+                </div>
+
+                <!-- Lowercase Section -->
+                <div class="space-y-2.5 no-wingdings">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-brand-electric flex items-center gap-1.5 no-wingdings">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-electric"></span>
+                        Lowercase Letters (a – z)
+                    </h4>
+                    <div id="lowercaseGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-2 no-wingdings"></div>
                 </div>
 
                 <!-- Numbers Section -->
@@ -365,9 +372,7 @@
                         <span class="w-1.5 h-1.5 rounded-full bg-brand-electric"></span>
                         Numbers (0 – 9)
                     </h4>
-                    <div id="numbersGrid" class="grid grid-cols-5 sm:grid-cols-10 gap-2 no-wingdings">
-                        <!-- Populated dynamically via JS -->
-                    </div>
+                    <div id="numbersGrid" class="grid grid-cols-5 sm:grid-cols-10 gap-2 no-wingdings"></div>
                 </div>
 
             </div>
@@ -382,17 +387,17 @@
     <script>
         let isWingdings = false;
 
-        // Accurate Wingdings symbol mapping for cross-platform support (iOS, Android, Desktop)
+        // Universal Unicode Wingdings mapping guaranteed to render on iOS, Android, and Desktop
         const wingdingsMap = {
             'A': '✌', 'B': '👌', 'C': '👍', 'D': '👎', 'E': '👈', 'F': '👉', 'G': '👆', 'H': '👇',
             'I': '✏', 'J': '☺', 'K': '😐', 'L': '☹', 'M': '💣', 'N': '☠', 'O': '⚐', 'P': '⚑',
             'Q': '✈', 'R': '☼', 'S': '💧', 'T': '❄', 'U': '🕈', 'V': '✞', 'W': '✝', 'X': '🕇',
             'Y': '✡', 'Z': '☸',
             'a': '♋', 'b': '♌', 'c': '♍', 'd': '♎', 'e': '♏', 'f': '♐', 'g': '♑', 'h': '♒',
-            'i': '♓', 'j': '☺', 'k': '😐', 'l': '☹', 'm': '💣', 'n': '☠', 'o': '⚐', 'p': '⚑',
-            'q': '✈', 'r': '☼', 's': '💧', 't': '❄', 'u': '🕈', 'v': '✞', 'w': '✝', 'x': '🕇',
-            'y': '✡', 'z': '☸',
-            '0': '🕁', '1': '🕂', '2': '🕃', '3': '🕄', '4': '🕅', '5': '🕆', '6': '🕇', '7': '🕈', '8': '🕉', '9': '🕊'
+            'i': '♓', 'j': '☯', 'k': '♠', 'l': '♣', 'm': '♥', 'n': '♦', 'o': '🎵', 'p': '🎶',
+            'q': '⚙', 'r': '⚡', 's': '⚓', 't': '⌛', 'u': '💡', 'v': '🔍', 'w': '🔔', 'x': '🔑',
+            'y': '🎯', 'z': '🚀',
+            '0': '▲', '1': '▼', '2': '◄', '3': '►', '4': '◆', '5': '◈', '6': '◉', '7': '◊', '8': '○', '9': '●'
         };
 
         function openSettings() {
@@ -425,7 +430,7 @@
                 if (node.parentElement && node.parentElement.closest('.no-wingdings')) return;
                 
                 if (enable) {
-                    if (!node.originalText) {
+                    if (node.originalText === undefined) {
                         node.originalText = node.nodeValue;
                     }
                     node.nodeValue = convertToWingdings(node.originalText);
@@ -458,31 +463,44 @@
         }
 
         function generateDecipherChart() {
-            const lettersGrid = document.getElementById('lettersGrid');
+            const uppercaseGrid = document.getElementById('uppercaseGrid');
+            const lowercaseGrid = document.getElementById('lowercaseGrid');
             const numbersGrid = document.getElementById('numbersGrid');
 
-            lettersGrid.innerHTML = '';
+            uppercaseGrid.innerHTML = '';
+            lowercaseGrid.innerHTML = '';
             numbersGrid.innerHTML = '';
 
-            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-            const numbers = '0123456789'.split('');
+            const uppercaseList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            const lowercaseList = 'abcdefghijklmnopqrstuvwxyz'.split('');
+            const numbersList = '0123456789'.split('');
 
-            alphabet.forEach(char => {
+            uppercaseList.forEach(char => {
                 const card = document.createElement('div');
                 card.className = 'p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 flex flex-col items-center justify-center gap-1 text-center no-wingdings';
                 card.innerHTML = `
                     <span class="text-xs font-bold text-slate-300 no-wingdings">${char}</span>
-                    <span class="text-lg text-brand-electric font-mono">${wingdingsMap[char] || char}</span>
+                    <span class="text-xl text-brand-electric font-mono">${wingdingsMap[char]}</span>
                 `;
-                lettersGrid.appendChild(card);
+                uppercaseGrid.appendChild(card);
             });
 
-            numbers.forEach(num => {
+            lowercaseList.forEach(char => {
+                const card = document.createElement('div');
+                card.className = 'p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 flex flex-col items-center justify-center gap-1 text-center no-wingdings';
+                card.innerHTML = `
+                    <span class="text-xs font-bold text-slate-300 no-wingdings">${char}</span>
+                    <span class="text-xl text-brand-electric font-mono">${wingdingsMap[char]}</span>
+                `;
+                lowercaseGrid.appendChild(card);
+            });
+
+            numbersList.forEach(num => {
                 const card = document.createElement('div');
                 card.className = 'p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 flex flex-col items-center justify-center gap-1 text-center no-wingdings';
                 card.innerHTML = `
                     <span class="text-xs font-bold text-slate-300 no-wingdings">${num}</span>
-                    <span class="text-lg text-brand-electric font-mono">${wingdingsMap[num] || num}</span>
+                    <span class="text-xl text-brand-electric font-mono">${wingdingsMap[num]}</span>
                 `;
                 numbersGrid.appendChild(card);
             });
