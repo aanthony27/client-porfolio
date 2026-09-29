@@ -27,11 +27,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        @font-face {
-            font-family: 'WingdingsFont';
-            src: local('Wingdings'), local('Wingdings 1');
-        }
-
         :root {
             --font-size-base: 16px;
         }
@@ -46,15 +41,6 @@
             font-family: 'Space Grotesk', sans-serif;
         }
 
-        /* Wingdings Mode Styling */
-        .wingdings-active * :not(script):not(style):not(i):not(svg):not(path):not(.no-wingdings):not(.no-wingdings *) {
-            font-family: 'WingdingsFont', 'Wingdings', sans-serif !important;
-        }
-
-        .no-wingdings {
-            font-family: 'Plus Jakarta Sans', sans-serif !important;
-        }
-
         .grid-bg-dark {
             background-image: radial-gradient(rgba(59, 130, 246, 0.12) 1px, transparent 1px);
             background-size: 24px 24px;
@@ -64,10 +50,6 @@
             background: rgba(17, 24, 39, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .wingdings-glyph {
-            font-family: 'WingdingsFont', 'Wingdings', sans-serif !important;
         }
 
         @keyframes pulseGlow {
@@ -400,6 +382,19 @@
     <script>
         let isWingdings = false;
 
+        // Accurate Wingdings symbol mapping for cross-platform support (iOS, Android, Desktop)
+        const wingdingsMap = {
+            'A': '✌', 'B': '👌', 'C': '👍', 'D': '👎', 'E': '👈', 'F': '👉', 'G': '👆', 'H': '👇',
+            'I': '✏', 'J': '☺', 'K': '😐', 'L': '☹', 'M': '💣', 'N': '☠', 'O': '⚐', 'P': '⚑',
+            'Q': '✈', 'R': '☼', 'S': '💧', 'T': '❄', 'U': '🕈', 'V': '✞', 'W': '✝', 'X': '🕇',
+            'Y': '✡', 'Z': '☸',
+            'a': '♋', 'b': '♌', 'c': '♍', 'd': '♎', 'e': '♏', 'f': '♐', 'g': '♑', 'h': '♒',
+            'i': '♓', 'j': '☺', 'k': '😐', 'l': '☹', 'm': '💣', 'n': '☠', 'o': '⚐', 'p': '⚑',
+            'q': '✈', 'r': '☼', 's': '💧', 't': '❄', 'u': '🕈', 'v': '✞', 'w': '✝', 'x': '🕇',
+            'y': '✡', 'z': '☸',
+            '0': '🕁', '1': '🕂', '2': '🕃', '3': '🕄', '4': '🕅', '5': '🕆', '6': '🕇', '7': '🕈', '8': '🕉', '9': '🕊'
+        };
+
         function openSettings() {
             document.getElementById('settingsModal').classList.remove('hidden');
         }
@@ -421,15 +416,34 @@
             document.getElementById('fontSizeVal').innerText = val + 'px';
         }
 
+        function convertToWingdings(text) {
+            return text.split('').map(char => wingdingsMap[char] || char).join('');
+        }
+
+        function walkAndTransformNodes(node, enable) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                if (node.parentElement && node.parentElement.closest('.no-wingdings')) return;
+                
+                if (enable) {
+                    if (!node.originalText) {
+                        node.originalText = node.nodeValue;
+                    }
+                    node.nodeValue = convertToWingdings(node.originalText);
+                } else if (node.originalText !== undefined) {
+                    node.nodeValue = node.originalText;
+                }
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                if (node.classList && node.classList.contains('no-wingdings')) return;
+                for (let child of node.childNodes) {
+                    walkAndTransformNodes(child, enable);
+                }
+            }
+        }
+
         function toggleWingdings(enabled) {
             isWingdings = enabled;
             document.getElementById('wingdingsToggle').checked = enabled;
-
-            if (enabled) {
-                document.body.classList.add('wingdings-active');
-            } else {
-                document.body.classList.remove('wingdings-active');
-            }
+            walkAndTransformNodes(document.body, enabled);
         }
 
         function copyEmail() {
@@ -443,10 +457,12 @@
             });
         }
 
-        // Build the Decipher Modal Grids dynamically
         function generateDecipherChart() {
             const lettersGrid = document.getElementById('lettersGrid');
             const numbersGrid = document.getElementById('numbersGrid');
+
+            lettersGrid.innerHTML = '';
+            numbersGrid.innerHTML = '';
 
             const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
             const numbers = '0123456789'.split('');
@@ -456,7 +472,7 @@
                 card.className = 'p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 flex flex-col items-center justify-center gap-1 text-center no-wingdings';
                 card.innerHTML = `
                     <span class="text-xs font-bold text-slate-300 no-wingdings">${char}</span>
-                    <span class="text-lg text-brand-electric font-mono wingdings-glyph">${char}</span>
+                    <span class="text-lg text-brand-electric font-mono">${wingdingsMap[char] || char}</span>
                 `;
                 lettersGrid.appendChild(card);
             });
@@ -466,16 +482,14 @@
                 card.className = 'p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 flex flex-col items-center justify-center gap-1 text-center no-wingdings';
                 card.innerHTML = `
                     <span class="text-xs font-bold text-slate-300 no-wingdings">${num}</span>
-                    <span class="text-lg text-brand-electric font-mono wingdings-glyph">${num}</span>
+                    <span class="text-lg text-brand-electric font-mono">${wingdingsMap[num] || num}</span>
                 `;
                 numbersGrid.appendChild(card);
             });
         }
 
-        // Initialize grid on DOM load
         document.addEventListener('DOMContentLoaded', generateDecipherChart);
 
-        // Close modals on outside click
         window.onclick = function(event) {
             const settingsModal = document.getElementById('settingsModal');
             const decipherModal = document.getElementById('decipherModal');
